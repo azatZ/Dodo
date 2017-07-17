@@ -1,5 +1,11 @@
 import UIKit
 
+
+/// A closure that is called when a bar button is tapped
+public typealias DodoButtonOnTap = ()->()
+
+public typealias DodoBarOnTap = ()->()
+
 /**
 
 Main class that coordinates the process of showing and hiding of the message bar.
@@ -13,7 +19,7 @@ For example:
     view.dodo.info("Horses are blue?")
 
 */
-final class Dodo: DodoInterface, DodoButtonViewDelegate {
+final class Dodo: DodoInterface {
   private weak var superview: UIView!
   private var hideTimer: MoaTimer?
   
@@ -107,7 +113,6 @@ final class Dodo: DodoInterface, DodoButtonViewDelegate {
     let bar = DodoToolbar(witStyle: style)
     setupHideOnTap(bar)
     bar.layoutGuide = style.bar.locationTop ? topLayoutGuide : bottomLayoutGuide
-    bar.buttonViewDelegate = self
     bar.show(inSuperview: superview, withMessage: message)
   }
   

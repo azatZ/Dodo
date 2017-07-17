@@ -15,7 +15,6 @@ public class DodoButtonStyle {
     _accessibilityLabel = nil
     _hideOnTap = nil
     _horizontalMarginToBar = nil
-    _icon = nil
     _image = nil
     _onTap = nil
     _size = nil
@@ -69,21 +68,6 @@ public class DodoButtonStyle {
     
     set {
       _horizontalMarginToBar = newValue
-    }
-  }
-  
-  // -----------------------------
-  
-  private var _icon: DodoIcons?
-  
-  /// When set it shows one of the default Dodo icons. Use `image` property to supply a custom image. The color of the image can be changed with `tintColor` property.
-  public var icon: DodoIcons? {
-    get {
-      return _icon ?? parent?.icon ?? DodoButtonDefaultStyles.icon
-    }
-    
-    set {
-      _icon = newValue
     }
   }
   

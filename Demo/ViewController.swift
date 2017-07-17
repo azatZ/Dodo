@@ -17,11 +17,7 @@ class ViewController: UIViewController {
   @IBOutlet weak var toggleKeyboardButton: UIButton!
   
   let animations = [
-    DodoAnimations.fade,
     DodoAnimations.noAnimation,
-    DodoAnimations.rotate,
-    DodoAnimations.slideLeft,
-    DodoAnimations.slideRight,
     DodoAnimations.slideVertically
   ]
   
@@ -155,13 +151,10 @@ class ViewController: UIViewController {
   // MARK: - Buttons
   
   private func addButtons() {
-    view.dodo.style.leftButton.icon = nil
     view.dodo.style.rightButton.image = nil
     view.dodo.style.leftButton.tintColor = DodoColor.fromHexString("#FFFFFFAA")
     
     if leftButtonSwitch.isOn {
-      // Use a built-in icon
-      view.dodo.style.leftButton.icon = .close
       view.dodo.style.leftButton.accessibilityLabel = "Close the message"
       view.dodo.style.leftButton.hideOnTap = true
     }

@@ -13,7 +13,6 @@ public struct DodoButtonDefaultStyles {
     accessibilityLabel = _accessibilityLabel
     hideOnTap = _hideOnTap
     horizontalMarginToBar = _horizontalMarginToBar
-    icon = _icon
     image = _image
     onTap = _onTap
     size = _size
@@ -50,14 +49,6 @@ public struct DodoButtonDefaultStyles {
   
   /// Margin between the bar edge and the button
   public static var horizontalMarginToBar = _horizontalMarginToBar
-  
-  
-  // ---------------------------
-  
-  private static let _icon: DodoIcons? = nil
-  
-  /// When set it shows one of the default Dodo icons. Use `image` property to supply a custom image. The color of the image can be changed with `tintColor` property.
-  public static var icon = _icon
   
   
   // ---------------------------

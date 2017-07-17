@@ -35,20 +35,8 @@ import UIKit
 
 /// Collection of animation effects use for showing and hiding the notification bar.
 public enum DodoAnimations: String {
-  /// Animation that fades the bar in/out.
-  case fade = "Fade"
-  
   /// Used for showing notification without animation.
   case noAnimation = "No animation"
-  
-  /// Animation that rotates the bar around X axis in perspective with spring effect.
-  case rotate = "Rotate"
-  
-  /// Animation that swipes the bar to/from the left with fade effect.
-  case slideLeft = "Slide left"
-  
-  /// Animation that swipes the bar to/from the right with fade effect.
-  case slideRight = "Slide right"
   
   /// Animation that slides the bar in/out vertically.
   case slideVertically = "Slide vertically"
@@ -62,20 +50,9 @@ public enum DodoAnimations: String {
   */
   public var show: DodoAnimation {
     switch self {
-    case .fade:
-      return DodoAnimationsShow.fade
       
     case .noAnimation:
       return DodoAnimations.doNoAnimation
-      
-    case .rotate:
-      return DodoAnimationsShow.rotate
-      
-    case .slideLeft:
-      return DodoAnimationsShow.slideLeft
-      
-    case .slideRight:
-      return DodoAnimationsShow.slideRight
       
     case .slideVertically:
       return DodoAnimationsShow.slideVertically
@@ -91,20 +68,8 @@ public enum DodoAnimations: String {
   */
   public var hide: DodoAnimation {
     switch self {
-    case .fade:
-      return DodoAnimationsHide.fade
-      
     case .noAnimation:
       return DodoAnimations.doNoAnimation
-      
-    case .rotate:
-      return DodoAnimationsHide.rotate
-      
-    case .slideLeft:
-      return DodoAnimationsHide.slideLeft
-      
-    case .slideRight:
-      return DodoAnimationsHide.slideRight
       
     case .slideVertically:
       return DodoAnimationsHide.slideVertically
@@ -570,6 +535,12 @@ protocol DodoButtonViewDelegate: class {
 
 import UIKit
 
+
+/// A closure that is called when a bar button is tapped
+public typealias DodoButtonOnTap = ()->()
+
+public typealias DodoBarOnTap = ()->()
+
 /**
 
 Main class that coordinates the process of showing and hiding of the message bar.
@@ -583,7 +554,7 @@ For example:
     view.dodo.info("Horses are blue?")
 
 */
-final class Dodo: DodoInterface, DodoButtonViewDelegate {
+final class Dodo: DodoInterface {
   private weak var superview: UIView!
   private var hideTimer: MoaTimer?
   
@@ -677,7 +648,6 @@ final class Dodo: DodoInterface, DodoButtonViewDelegate {
     let bar = DodoToolbar(witStyle: style)
     setupHideOnTap(bar)
     bar.layoutGuide = style.bar.locationTop ? topLayoutGuide : bottomLayoutGuide
-    bar.buttonViewDelegate = self
     bar.show(inSuperview: superview, withMessage: message)
   }
   
@@ -755,7 +725,6 @@ final class Dodo: DodoInterface, DodoButtonViewDelegate {
 // ----------------------------
 
 /// A closure that is called when a bar is tapped
-public typealias DodoBarOnTap = ()->()
 
 
 // ----------------------------
@@ -874,7 +843,6 @@ import UIKit
 class DodoToolbar: UIView {
   var layoutGuide: UILayoutSupport?
   var style: DodoStyle
-  weak var buttonViewDelegate: DodoButtonViewDelegate?
   private var didCallHide = false
   
   convenience init(witStyle style: DodoStyle) {
@@ -900,10 +868,8 @@ class DodoToolbar: UIView {
     parentView.addSubview(self)
     applyStyle()
     layoutBarInSuperview()
-      
-    let buttons = createButtons()
-
-    createLabel(message, withButtons: buttons)
+    
+    createLabel(message)
     
     style.bar.animationShow(self, style.bar.animationShowDuration, style.bar.locationTop, {})
   }
@@ -923,7 +889,7 @@ class DodoToolbar: UIView {
     
   // MARK: - Label
   
-  private func createLabel(_ message: String, withButtons buttons: [UIView]) {
+  private func createLabel(_ message: String) {
     let label = UILabel()
     
     label.font = style.label.font
@@ -942,57 +908,22 @@ class DodoToolbar: UIView {
     }
     
     addSubview(label)
-    layoutLabel(label, withButtons: buttons)
+    layoutLabel(label)
   }
   
-  private func layoutLabel(_ label: UILabel, withButtons buttons: [UIView]) {
+  private func layoutLabel(_ label: UILabel) {
     label.translatesAutoresizingMaskIntoConstraints = false
     
     // Stretch the label vertically
     TegAutolayoutConstraints.fillParent(label, parentView: self,
       margin: style.label.horizontalMargin, vertically: true)
     
-    if buttons.count == 0 {
       if let superview = superview {
         // If there are no buttons - stretch the label to the entire width of the view
         TegAutolayoutConstraints.fillParent(label, parentView: superview,
           margin: style.label.horizontalMargin, vertically: false)
       }
-    } else {
-      layoutLabelWithButtons(label, withButtons: buttons)
-    }
-  }
-  
-  private func layoutLabelWithButtons(_ label: UILabel, withButtons buttons: [UIView]) {
-    if buttons.count != 2 { return }
-    
-    let views = [buttons[0], label, buttons[1]]
-    
-    if let superview = superview {
-      TegAutolayoutConstraints.viewsNextToEachOther(views,
-        constraintContainer: superview, margin: style.label.horizontalMargin, vertically: false)
-    }
-  }
-  
-  // MARK: - Buttons
-  
-  private func createButtons() -> [DodoButtonView] {
-    precondition(buttonViewDelegate != nil, "Button view delegate can not be nil")
-    let buttonStyles = [style.leftButton, style.rightButton]
-    
-    let buttonViews = DodoButtonView.createMany(buttonStyles)
-    
-    for (index, button) in buttonViews.enumerated() {
-      addSubview(button)
-      button.delegate = buttonViewDelegate
-      button.doLayout(onLeftSide: index == 0)
 
-      if style.bar.debugMode {
-        button.backgroundColor = UIColor.yellow
-      }
-    }
-    
-    return buttonViews
   }
   
   // MARK: - Style the bar
@@ -1086,26 +1017,6 @@ struct DodoTouchTarget {
     
     return extendedBounds
   }
-}
-
-
-// ----------------------------
-//
-// DodoIcons.swift
-//
-// ----------------------------
-
-/**
-
-Collection of icons included with Dodo library.
-
-*/
-public enum DodoIcons: String {
-  /// Icon for closing the bar.
-  case close = "Close"
-  
-  /// Icon for reloading.
-  case reload = "Reload"
 }
 
 
@@ -1750,7 +1661,6 @@ public struct DodoButtonDefaultStyles {
     accessibilityLabel = _accessibilityLabel
     hideOnTap = _hideOnTap
     horizontalMarginToBar = _horizontalMarginToBar
-    icon = _icon
     image = _image
     onTap = _onTap
     size = _size
@@ -1787,14 +1697,6 @@ public struct DodoButtonDefaultStyles {
   
   /// Margin between the bar edge and the button
   public static var horizontalMarginToBar = _horizontalMarginToBar
-  
-  
-  // ---------------------------
-  
-  private static let _icon: DodoIcons? = nil
-  
-  /// When set it shows one of the default Dodo icons. Use `image` property to supply a custom image. The color of the image can be changed with `tintColor` property.
-  public static var icon = _icon
   
   
   // ---------------------------
@@ -1839,6 +1741,16 @@ public struct DodoButtonDefaultStyles {
 
 // ----------------------------
 //
+// DodoButtonOnTap.swift
+//
+// ----------------------------
+
+/// A closure that is called when a bar button is tapped
+public typealias DodoButtonOnTap = ()->()
+
+
+// ----------------------------
+//
 // DodoButtonStyle.swift
 //
 // ----------------------------
@@ -1860,7 +1772,6 @@ public class DodoButtonStyle {
     _accessibilityLabel = nil
     _hideOnTap = nil
     _horizontalMarginToBar = nil
-    _icon = nil
     _image = nil
     _onTap = nil
     _size = nil
@@ -1914,21 +1825,6 @@ public class DodoButtonStyle {
     
     set {
       _horizontalMarginToBar = newValue
-    }
-  }
-  
-  // -----------------------------
-  
-  private var _icon: DodoIcons?
-  
-  /// When set it shows one of the default Dodo icons. Use `image` property to supply a custom image. The color of the image can be changed with `tintColor` property.
-  public var icon: DodoIcons? {
-    get {
-      return _icon ?? parent?.icon ?? DodoButtonDefaultStyles.icon
-    }
-    
-    set {
-      _icon = newValue
     }
   }
   
