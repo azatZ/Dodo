@@ -110,13 +110,12 @@ class DodoToolbar: UIView {
       let vMargin = style.bar.marginToSuperview.height
       let verticalMargin = style.bar.locationTop ? -vMargin : vMargin
       
-      var verticalConstraints = [NSLayoutConstraint]()
       
       if let layoutGuide = layoutGuide {
         
         // Align the top/bottom edge of the toolbar with the top/bottom layout guide
         // (a tab bar, for example)
-        verticalConstraints = TegAutolayoutConstraints.alignVerticallyToLayoutGuide(self,
+       _ = TegAutolayoutConstraints.alignVerticallyToLayoutGuide(self,
           onTop: style.bar.locationTop,
           layoutGuide: layoutGuide,
           constraintContainer: superview,
@@ -125,24 +124,13 @@ class DodoToolbar: UIView {
       } else {
         
         // Align the top/bottom of the toolbar with the top/bottom of its superview
-        verticalConstraints = TegAutolayoutConstraints.alignSameAttributes(superview, toItem: self,
+        _ = TegAutolayoutConstraints.alignSameAttributes(superview, toItem: self,
           constraintContainer: superview,
           attribute: style.bar.locationTop ? NSLayoutAttribute.top : NSLayoutAttribute.bottom,
           margin: verticalMargin)
       }
-      
-      setupKeyboardEvader(verticalConstraints)
-    }
-  }
-  
-  // Moves the message bar from under the keyboard
-  private func setupKeyboardEvader(_ verticalConstraints: [NSLayoutConstraint]) {
-    if let bottomConstraint = verticalConstraints.first,
-      let superview = superview
-      , !style.bar.locationTop {
-      
-      DodoKeyboardListener.underKeyboardLayoutConstraint.setup(bottomConstraint,
-        view: superview, bottomLayoutGuide: layoutGuide)
+        
+        
     }
   }
 }

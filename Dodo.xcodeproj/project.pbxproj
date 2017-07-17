@@ -7,12 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2B05999C1BABBA8300F36AED /* DodoBarOnTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B05999B1BABBA8300F36AED /* DodoBarOnTap.swift */; };
-		2B05999D1BABBA8800F36AED /* DodoBarOnTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B05999B1BABBA8300F36AED /* DodoBarOnTap.swift */; };
-		2B5589681B60753E008CA494 /* UnderKeyboardDistrib.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5589671B60753E008CA494 /* UnderKeyboardDistrib.swift */; };
-		2B5589691B60755D008CA494 /* UnderKeyboardDistrib.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5589671B60753E008CA494 /* UnderKeyboardDistrib.swift */; };
-		2B6CA4531B5F74480003B836 /* DodoKeyboardListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6CA4521B5F74480003B836 /* DodoKeyboardListener.swift */; };
-		2B6CA4551B5F77B40003B836 /* DodoKeyboardListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6CA4521B5F74480003B836 /* DodoKeyboardListener.swift */; };
 		7E34D3791B605B6A00BECDCA /* XCTest+postKeyboardNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E34D3781B605B6A00BECDCA /* XCTest+postKeyboardNotification.swift */; };
 		7E34D3801B60654E00BECDCA /* LayoutGuideMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E34D37F1B60654E00BECDCA /* LayoutGuideMock.swift */; };
 		7E4066B61B212BCB00E0AC41 /* DodoAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4066B51B212BCB00E0AC41 /* DodoAnimation.swift */; };
@@ -31,8 +25,6 @@
 		7EDF78A21B21068800A9597E /* DodoToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EDF78861B21068800A9597E /* DodoToolbar.swift */; };
 		7EDF78A31B21068800A9597E /* DodoBarDefaultStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EDF78881B21068800A9597E /* DodoBarDefaultStyles.swift */; };
 		7EDF78A41B21068800A9597E /* DodoBarStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EDF78891B21068800A9597E /* DodoBarStyle.swift */; };
-		7EDF78A51B21068800A9597E /* DodoButtonDefaultStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EDF788A1B21068800A9597E /* DodoButtonDefaultStyles.swift */; };
-		7EDF78A61B21068800A9597E /* DodoButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EDF788B1B21068800A9597E /* DodoButtonStyle.swift */; };
 		7EDF78A71B21068800A9597E /* DodoLabelDefaultStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EDF788C1B21068800A9597E /* DodoLabelDefaultStyles.swift */; };
 		7EDF78A81B21068800A9597E /* DodoLabelStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EDF788D1B21068800A9597E /* DodoLabelStyle.swift */; };
 		7EDF78A91B21068800A9597E /* DodoPresets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EDF788E1B21068800A9597E /* DodoPresets.swift */; };
@@ -62,8 +54,6 @@
 		7EDF78DF1B21070E00A9597E /* DodoTouchTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EDF78841B21068800A9597E /* DodoTouchTarget.swift */; };
 		7EDF78E01B21071500A9597E /* DodoBarDefaultStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EDF78881B21068800A9597E /* DodoBarDefaultStyles.swift */; };
 		7EDF78E11B21071500A9597E /* DodoBarStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EDF78891B21068800A9597E /* DodoBarStyle.swift */; };
-		7EDF78E21B21071500A9597E /* DodoButtonDefaultStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EDF788A1B21068800A9597E /* DodoButtonDefaultStyles.swift */; };
-		7EDF78E31B21071500A9597E /* DodoButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EDF788B1B21068800A9597E /* DodoButtonStyle.swift */; };
 		7EDF78E41B21071500A9597E /* DodoLabelDefaultStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EDF788C1B21068800A9597E /* DodoLabelDefaultStyles.swift */; };
 		7EDF78E51B21071500A9597E /* DodoLabelStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EDF788D1B21068800A9597E /* DodoLabelStyle.swift */; };
 		7EDF78E61B21071500A9597E /* DodoPresets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EDF788E1B21068800A9597E /* DodoPresets.swift */; };
@@ -133,9 +123,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		2B05999B1BABBA8300F36AED /* DodoBarOnTap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DodoBarOnTap.swift; sourceTree = "<group>"; };
-		2B5589671B60753E008CA494 /* UnderKeyboardDistrib.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnderKeyboardDistrib.swift; sourceTree = "<group>"; };
-		2B6CA4521B5F74480003B836 /* DodoKeyboardListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DodoKeyboardListener.swift; sourceTree = "<group>"; };
 		7E34D3781B605B6A00BECDCA /* XCTest+postKeyboardNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCTest+postKeyboardNotification.swift"; sourceTree = "<group>"; };
 		7E34D37F1B60654E00BECDCA /* LayoutGuideMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayoutGuideMock.swift; sourceTree = "<group>"; };
 		7E4066B51B212BCB00E0AC41 /* DodoAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DodoAnimation.swift; sourceTree = "<group>"; };
@@ -155,8 +142,6 @@
 		7EDF78861B21068800A9597E /* DodoToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DodoToolbar.swift; sourceTree = "<group>"; };
 		7EDF78881B21068800A9597E /* DodoBarDefaultStyles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DodoBarDefaultStyles.swift; sourceTree = "<group>"; };
 		7EDF78891B21068800A9597E /* DodoBarStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DodoBarStyle.swift; sourceTree = "<group>"; };
-		7EDF788A1B21068800A9597E /* DodoButtonDefaultStyles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DodoButtonDefaultStyles.swift; sourceTree = "<group>"; };
-		7EDF788B1B21068800A9597E /* DodoButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DodoButtonStyle.swift; sourceTree = "<group>"; };
 		7EDF788C1B21068800A9597E /* DodoLabelDefaultStyles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DodoLabelDefaultStyles.swift; sourceTree = "<group>"; };
 		7EDF788D1B21068800A9597E /* DodoLabelStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DodoLabelStyle.swift; sourceTree = "<group>"; };
 		7EDF788E1B21068800A9597E /* DodoPresets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DodoPresets.swift; sourceTree = "<group>"; };
@@ -270,8 +255,6 @@
 				7EDF78861B21068800A9597E /* DodoToolbar.swift */,
 				7EDF78901B21068800A9597E /* Dodo.swift */,
 				7EF94B9D1B29207F006B4429 /* DodoInterface.swift */,
-				2B05999B1BABBA8300F36AED /* DodoBarOnTap.swift */,
-				2B6CA4521B5F74480003B836 /* DodoKeyboardListener.swift */,
 				7EDF78931B21068800A9597E /* UIView+SwiftAlertBar.swift */,
 				7EDF78641B2105F300A9597E /* Dodo.h */,
 				7EDF78621B2105F300A9597E /* Supporting Files */,
@@ -338,8 +321,6 @@
 			children = (
 				7EDF78881B21068800A9597E /* DodoBarDefaultStyles.swift */,
 				7EDF78891B21068800A9597E /* DodoBarStyle.swift */,
-				7EDF788A1B21068800A9597E /* DodoButtonDefaultStyles.swift */,
-				7EDF788B1B21068800A9597E /* DodoButtonStyle.swift */,
 				7EDF788C1B21068800A9597E /* DodoLabelDefaultStyles.swift */,
 				7EDF788D1B21068800A9597E /* DodoLabelStyle.swift */,
 				7EDF788E1B21068800A9597E /* DodoPresets.swift */,
@@ -356,7 +337,6 @@
 				7EDF78961B21068800A9597E /* OnTap.swift */,
 				7EDF78971B21068800A9597E /* SpringAnimationCALayer.swift */,
 				7EDF78981B21068800A9597E /* TegAutolayoutConstraints.swift */,
-				2B5589671B60753E008CA494 /* UnderKeyboardDistrib.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -658,19 +638,14 @@
 				7EF94BB31B293BBB006B4429 /* DodoMockMessage.swift in Sources */,
 				7E4066B61B212BCB00E0AC41 /* DodoAnimation.swift in Sources */,
 				7EC51DA61B215C9D0070019F /* DodoAnimationsHide.swift in Sources */,
-				7EDF78A51B21068800A9597E /* DodoButtonDefaultStyles.swift in Sources */,
-				7EDF78A61B21068800A9597E /* DodoButtonStyle.swift in Sources */,
-				2B05999C1BABBA8300F36AED /* DodoBarOnTap.swift in Sources */,
 				7EDF78B01B21068800A9597E /* TegAutolayoutConstraints.swift in Sources */,
 				7EF94BB01B2939CC006B4429 /* DodoMockResults.swift in Sources */,
-				2B5589681B60753E008CA494 /* UnderKeyboardDistrib.swift in Sources */,
 				7EDF78A31B21068800A9597E /* DodoBarDefaultStyles.swift in Sources */,
 				7EDF78B11B21068800A9597E /* DodoColor.swift in Sources */,
 				7EDF78A91B21068800A9597E /* DodoPresets.swift in Sources */,
 				7EC51DA41B215C070070019F /* DodoAnimationsShow.swift in Sources */,
 				7EF94B9E1B29207F006B4429 /* DodoInterface.swift in Sources */,
 				7EDF78AA1B21068800A9597E /* DodoStyle.swift in Sources */,
-				2B6CA4531B5F74480003B836 /* DodoKeyboardListener.swift in Sources */,
 				7EF94BA71B29393A006B4429 /* DodoMock.swift in Sources */,
 				7EDF78AC1B21068800A9597E /* UIView+SwiftAlertBar.swift in Sources */,
 				7EDF78AF1B21068800A9597E /* SpringAnimationCALayer.swift in Sources */,
@@ -690,11 +665,8 @@
 				7EDF78D61B2106CD00A9597E /* XCTestCase+Helpers.swift in Sources */,
 				7EF94BAD1B293976006B4429 /* ButtonViewDelegateMock.swift in Sources */,
 				7EDF78D21B2106CD00A9597E /* DodoTests.swift in Sources */,
-				7EDF78E21B21071500A9597E /* DodoButtonDefaultStyles.swift in Sources */,
-				2B6CA4551B5F77B40003B836 /* DodoKeyboardListener.swift in Sources */,
 				7EDF78E91B21072200A9597E /* OnTap.swift in Sources */,
 				7EC51DA71B215D450070019F /* DodoAnimationsShow.swift in Sources */,
-				2B05999D1BABBA8800F36AED /* DodoBarOnTap.swift in Sources */,
 				7EDF78DF1B21070E00A9597E /* DodoTouchTarget.swift in Sources */,
 				7EDF78D71B2106CD00A9597E /* UIView+SwiftAlertBarTests.swift in Sources */,
 				7EDF78E01B21071500A9597E /* DodoBarDefaultStyles.swift in Sources */,
@@ -703,7 +675,6 @@
 				7EDF78EA1B21072200A9597E /* SpringAnimationCALayer.swift in Sources */,
 				7EDF78EB1B21072200A9597E /* TegAutolayoutConstraints.swift in Sources */,
 				7E4066B91B2131F900E0AC41 /* DodoAnimations.swift in Sources */,
-				2B5589691B60755D008CA494 /* UnderKeyboardDistrib.swift in Sources */,
 				7E34D3791B605B6A00BECDCA /* XCTest+postKeyboardNotification.swift in Sources */,
 				7EDF78E11B21071500A9597E /* DodoBarStyle.swift in Sources */,
 				7EDF78EC1B21072200A9597E /* DodoColor.swift in Sources */,
@@ -730,7 +701,6 @@
 				7EA9E6D91CABA16B00FC3470 /* TestHelpers.swift in Sources */,
 				7E4066BA1B2131FE00E0AC41 /* DodoAnimation.swift in Sources */,
 				7EDF78E51B21071500A9597E /* DodoLabelStyle.swift in Sources */,
-				7EDF78E31B21071500A9597E /* DodoButtonStyle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -38,8 +38,6 @@ final class Dodo: DodoInterface {
   /// Creates an instance of Dodo class
   init(superview: UIView) {
     self.superview = superview
-    
-    DodoKeyboardListener.startListening()
   }
   
   /// Changes the style preset for the bar widget.
@@ -169,14 +167,6 @@ final class Dodo: DodoInterface {
     style.bar.onTap?()
     
     if style.bar.hideOnTap {
-      hide()
-    }
-  }
-  
-  // MARK: - DodoButtonViewDelegate
-  
-  func buttonDelegateDidTap(_ buttonStyle: DodoButtonStyle) {
-    if buttonStyle.hideOnTap {
       hide()
     }
   }

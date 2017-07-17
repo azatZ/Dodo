@@ -147,70 +147,6 @@ public enum DodoAnimations: String {
     )
   }
   
-  static weak var timer: MoaTimer?
-  
-  /// Animation that rotates the bar around X axis in perspective with spring effect.
-  static func doRotate(_ duration: TimeInterval?, showView: Bool, view: UIView, completed: @escaping DodoAnimationCompleted) {
-    
-    let actualDuration = duration ?? 2.0
-    let start: Double = showView ? Double(Double.pi / 2) : 0
-    let end: Double = showView ? 0 : Double(Double.pi / 2)
-    let damping = showView ? 0.85 : 3
-    
-    let myCALayer = view.layer
-    
-    var transform = CATransform3DIdentity
-    transform.m34 = -1.0/200.0
-    myCALayer.transform = CATransform3DRotate(transform, CGFloat(end), 1, 0, 0)
-    myCALayer.zPosition = 300
-    
-    SpringAnimationCALayer.animate(myCALayer,
-      keypath: "transform.rotation.x",
-      duration: actualDuration,
-      usingSpringWithDamping: damping,
-      initialSpringVelocity: 1,
-      fromValue: start,
-      toValue: end,
-      onFinished: showView ? completed : nil)
-    
-    // Hide the bar prematurely for better looks
-    timer?.cancel()
-    if !showView {
-      timer = MoaTimer.runAfter(0.3) { timer in
-        completed()
-      }
-    }
-  }
-  
-  /// Animation that swipes the bar to the right with fade-out effect.
-  static func doSlide(_ duration: TimeInterval?, right: Bool, showView: Bool,
-    view: UIView, completed: @escaping DodoAnimationCompleted) {
-      
-    let actualDuration = duration ?? 0.4
-    let distance = UIScreen.main.bounds.width
-    let transform = CGAffineTransform(translationX: right ? distance : -distance, y: 0)
-    
-    let start: CGAffineTransform = showView ? transform : CGAffineTransform.identity
-    let end: CGAffineTransform = showView ? CGAffineTransform.identity : transform
-    
-    let alphaStart: CGFloat = showView ? 0.2 : 1
-    let alphaEnd: CGFloat = showView ? 1 : 0.2
-
-    view.transform = start
-    view.alpha = alphaStart
-      
-    UIView.animate(withDuration: actualDuration,
-      delay: 0,
-      options: UIViewAnimationOptions.curveEaseOut,
-      animations: {
-        view.transform = end
-        view.alpha = alphaEnd
-      },
-      completion: { finished in
-        completed()
-      }
-    )
-  }
 }
 
 
@@ -224,48 +160,6 @@ import UIKit
 
 /// Collection of animation effects use for hiding the notification bar.
 struct DodoAnimationsHide {
-  /**
-  
-  Animation that rotates the bar around X axis in perspective with spring effect.
-  
-  - parameter view: View supplied for animation.
-  - parameter completed: A closure to be called after animation completes.
-  
-  */
-  static func rotate(_ view: UIView, duration: TimeInterval?, locationTop: Bool,
-    completed: @escaping DodoAnimationCompleted) {
-      
-    DodoAnimations.doRotate(duration, showView: false, view: view, completed: completed)
-  }
-  
-  /**
-  
-  Animation that swipes the bar from to the left with fade-in effect.
-  
-  - parameter view: View supplied for animation.
-  - parameter completed: A closure to be called after animation completes.
-  
-  */
-  static func slideLeft(_ view: UIView, duration: TimeInterval?, locationTop: Bool,
-    completed: @escaping DodoAnimationCompleted) {
-      
-    DodoAnimations.doSlide(duration, right: false, showView: false, view: view, completed: completed)
-  }
-  
-  /**
-  
-  Animation that swipes the bar to the right with fade-out effect.
-  
-  - parameter view: View supplied for animation.
-  - parameter completed: A closure to be called after animation completes.
-  
-  */
-  static func slideRight(_ view: UIView, duration: TimeInterval?, locationTop: Bool,
-    completed: @escaping DodoAnimationCompleted) {
-      
-    DodoAnimations.doSlide(duration, right: true, showView: false, view: view, completed: completed)
-  }
-  
   /**
   
   Animation that fades the bar out.
@@ -307,48 +201,6 @@ import UIKit
 
 /// Collection of animation effects use for showing the notification bar.
 struct DodoAnimationsShow {
-  /**
-  
-  Animation that rotates the bar around X axis in perspective with spring effect.
-  
-  - parameter view: View supplied for animation.
-  - parameter completed: A closure to be called after animation completes.
-  
-  */
-  static func rotate(_ view: UIView, duration: TimeInterval?,
-    locationTop: Bool, completed: @escaping DodoAnimationCompleted) {
-      
-    DodoAnimations.doRotate(duration, showView: true, view: view, completed: completed)
-  }
-  
-  /**
-  
-  Animation that swipes the bar from the left with fade-in effect.
-  
-  - parameter view: View supplied for animation.
-  - parameter completed: A closure to be called after animation completes.
-  
-  */
-  static func slideLeft(_ view: UIView, duration: TimeInterval?, locationTop: Bool,
-    completed: @escaping DodoAnimationCompleted) {
-      
-    DodoAnimations.doSlide(duration, right: false, showView: true, view: view, completed: completed)
-  }
-  
-  /**
-  
-  Animation that swipes the bar from the right with fade-in effect.
-  
-  - parameter view: View supplied for animation.
-  - parameter completed: A closure to be called after animation completes.
-  
-  */
-  static func slideRight(_ view: UIView, duration: TimeInterval?, locationTop: Bool,
-    completed: @escaping DodoAnimationCompleted) {
-      
-    DodoAnimations.doSlide(duration, right: true, showView: true, view: view, completed: completed)
-  }
-  
   /**
   
   Animation that fades the bar in.
@@ -573,8 +425,6 @@ final class Dodo: DodoInterface {
   /// Creates an instance of Dodo class
   init(superview: UIView) {
     self.superview = superview
-    
-    DodoKeyboardListener.startListening()
   }
   
   /// Changes the style preset for the bar widget.
@@ -707,14 +557,6 @@ final class Dodo: DodoInterface {
       hide()
     }
   }
-  
-  // MARK: - DodoButtonViewDelegate
-  
-  func buttonDelegateDidTap(_ buttonStyle: DodoButtonStyle) {
-    if buttonStyle.hideOnTap {
-      hide()
-    }
-  }
 }
 
 
@@ -808,27 +650,6 @@ public protocol DodoInterface: class {
   
   /// Hide the message bar if it's currently shown.
   func hide()
-}
-
-
-// ----------------------------
-//
-// DodoKeyboardListener.swift
-//
-// ----------------------------
-
-/**
-
-Start listening for keyboard events. Used for moving the message bar from under the keyboard when the bar is shown at the bottom of the screen.
-
-*/
-struct DodoKeyboardListener {
-  static let underKeyboardLayoutConstraint = UnderKeyboardLayoutConstraint()
-  
-  static func startListening() {
-    // Just access the static property to make it initialize itself lazily if it hasn't been already.
-    underKeyboardLayoutConstraint.isAccessibilityElement = false
-  }
 }
 
 
@@ -970,19 +791,9 @@ class DodoToolbar: UIView {
           attribute: style.bar.locationTop ? NSLayoutAttribute.top : NSLayoutAttribute.bottom,
           margin: verticalMargin)
       }
-      
-      setupKeyboardEvader(verticalConstraints)
-    }
-  }
-  
-  // Moves the message bar from under the keyboard
-  private func setupKeyboardEvader(_ verticalConstraints: [NSLayoutConstraint]) {
-    if let bottomConstraint = verticalConstraints.first,
-      let superview = superview
-      , !style.bar.locationTop {
-      
-      DodoKeyboardListener.underKeyboardLayoutConstraint.setup(bottomConstraint,
-        view: superview, bottomLayoutGuide: layoutGuide)
+        addConstraints(verticalConstraints)
+        
+        
     }
   }
 }
@@ -1249,7 +1060,7 @@ public struct DodoBarDefaultStyles {
   // ---------------------------
   
   
-  private static let _animationHide: DodoAnimation = DodoAnimationsHide.rotate
+  private static let _animationHide: DodoAnimation = DodoAnimationsHide.slideVertically
   
   /// Specify a function for animating the bar when it is hidden.
   public static var animationHide: DodoAnimation = _animationHide
@@ -1267,7 +1078,7 @@ public struct DodoBarDefaultStyles {
   // ---------------------------
   
   
-  private static let _animationShow: DodoAnimation = DodoAnimationsShow.rotate
+  private static let _animationShow: DodoAnimation = DodoAnimationsShow.slideVertically
   
   /// Specify a function for animating the bar when it is shown.
   public static var animationShow: DodoAnimation = _animationShow
@@ -1642,255 +1453,12 @@ public class DodoBarStyle {
 
 // ----------------------------
 //
-// DodoButtonDefaultStyles.swift
-//
-// ----------------------------
-
-import UIKit
-
-/**
-
-Default styles for the bar button.
-Default styles are used when individual element styles are not set.
-
-*/
-public struct DodoButtonDefaultStyles {
-
-  /// Revert the property values to their defaults
-  public static func resetToDefaults() {
-    accessibilityLabel = _accessibilityLabel
-    hideOnTap = _hideOnTap
-    horizontalMarginToBar = _horizontalMarginToBar
-    image = _image
-    onTap = _onTap
-    size = _size
-    tintColor = _tintColor
-  }
-  
-  
-  // ---------------------------
-  
-  
-  private static let _accessibilityLabel: String? = nil
-  
-  /**
-  
-  This text is spoken by the device when it is in accessibility mode. It is recommended to always set the accessibility label for your button. The text can be a short localized description of the button function, for example: "Close the message", "Reload" etc.
-  
-  */
-  public static var accessibilityLabel = _accessibilityLabel
-  
-  
-  // ---------------------------
-  
-  
-  private static let _hideOnTap = false
-  
-  /// When true it hides the bar when the button is tapped.
-  public static var hideOnTap = _hideOnTap
-  
-  
-  // ---------------------------
-  
-  
-  private static let _horizontalMarginToBar: CGFloat = 10
-  
-  /// Margin between the bar edge and the button
-  public static var horizontalMarginToBar = _horizontalMarginToBar
-  
-  
-  // ---------------------------
-  
-  
-  private static let _image: UIImage? = nil
-  
-  /// Custom image for the button. One can also use the `icon` property to show one of the default Dodo icons. The color of the image can be changed with `tintColor` property.
-  public static var image = _image
-  
-  
-  // ---------------------------
-
-  
-  private static let _onTap: DodoButtonOnTap? = nil
-  
-  /// Supply a function that will be called when user taps the button.
-  public static var onTap = _onTap
-  
-  
-  // ---------------------------
-  
-  
-  private static let _size = CGSize(width: 25, height: 25)
-  
-  /// Size of the button.
-  public static var size = _size
-  
-  
-  // ---------------------------
-
-  
-  private static let _tintColor: UIColor? = nil
-  
-  /// Replaces the color of the image or icon. The original colors are used when nil.
-  public static var tintColor = _tintColor
-  
-  
-  // ---------------------------
-}
-
-
-// ----------------------------
-//
 // DodoButtonOnTap.swift
 //
 // ----------------------------
 
 /// A closure that is called when a bar button is tapped
 public typealias DodoButtonOnTap = ()->()
-
-
-// ----------------------------
-//
-// DodoButtonStyle.swift
-//
-// ----------------------------
-
-import UIKit
-
-/// Defines styles for the bar button.
-public class DodoButtonStyle {
-  
-  /// The parent style is used to get the property value if the object is missing one.
-  var parent: DodoButtonStyle?
-  
-  init(parentStyle: DodoButtonStyle? = nil) {
-    self.parent = parentStyle
-  }
-  
-  /// Clears the styles for all properties for this style object. The styles will be taken from parent and default properties.
-  public func clear() {
-    _accessibilityLabel = nil
-    _hideOnTap = nil
-    _horizontalMarginToBar = nil
-    _image = nil
-    _onTap = nil
-    _size = nil
-    _tintColor = nil
-  }
-  
-  // -----------------------------
-  
-  private var _accessibilityLabel: String?
-  
-  /**
-  
-  This text is spoken by the device when it is in accessibility mode. It is recommended to always set the accessibility label for your button. The text can be a short localized description of the button function, for example: "Close the message", "Reload" etc.
-  
-  */
-  public var accessibilityLabel: String? {
-    get {
-      return _accessibilityLabel ?? parent?.accessibilityLabel ?? DodoButtonDefaultStyles.accessibilityLabel
-    }
-    
-    set {
-      _accessibilityLabel = newValue
-    }
-  }
-  
-  // -----------------------------
-  
-  private var _hideOnTap: Bool?
-  
-  /// When true it hides the bar when the button is tapped.
-  public var hideOnTap: Bool {
-    get {
-      return _hideOnTap ?? parent?.hideOnTap ?? DodoButtonDefaultStyles.hideOnTap
-    }
-    
-    set {
-      _hideOnTap = newValue
-    }
-  }
-  
-  // -----------------------------
-  
-  private var _horizontalMarginToBar: CGFloat?
-  
-  /// Horizontal margin between the bar edge and the button.
-  public var horizontalMarginToBar: CGFloat {
-    get {
-      return _horizontalMarginToBar ?? parent?.horizontalMarginToBar ??
-        DodoButtonDefaultStyles.horizontalMarginToBar
-    }
-    
-    set {
-      _horizontalMarginToBar = newValue
-    }
-  }
-  
-  // -----------------------------
-
-  private var _image: UIImage?
-  
-  /// Custom image for the button. One can also use the `icon` property to show one of the default Dodo icons. The color of the image can be changed with `tintColor` property.
-  public var image: UIImage? {
-    get {
-      return _image ?? parent?.image ?? DodoButtonDefaultStyles.image
-    }
-    
-    set {
-      _image = newValue
-    }
-  }
-  
-  // ---------------------------
-  
-  private var _onTap: DodoButtonOnTap?
-  
-  /// Supply a function that will be called when user taps the button.
-  public var onTap: DodoButtonOnTap? {
-    get {
-      return _onTap ?? parent?.onTap ?? DodoButtonDefaultStyles.onTap
-    }
-    
-    set {
-      _onTap = newValue
-    }
-  }
-  
-  // -----------------------------
-  
-  private var _size: CGSize?
-  
-  /// Size of the button.
-  public var size: CGSize {
-    get {
-      return _size ?? parent?.size ?? DodoButtonDefaultStyles.size
-    }
-    
-    set {
-      _size = newValue
-    }
-  }
-  
-  // -----------------------------
-  
-  private var _tintColor: UIColor?
-  
-  /// Replaces the color of the image or icon. The original colors are used when nil.
-  public var tintColor: UIColor? {
-    get {
-      return _tintColor ?? parent?.tintColor ?? DodoButtonDefaultStyles.tintColor
-    }
-    
-    set {
-      _tintColor = newValue
-    }
-  }
-  
-  
-  // -----------------------------
-}
 
 
 // ----------------------------
@@ -2204,8 +1772,6 @@ public class DodoStyle {
   private func changeParent() {
     bar.parent = parent?.bar
     label.parent = parent?.label
-    leftButton.parent = parent?.leftButton
-    rightButton.parent = parent?.rightButton
   }
   
   /**
@@ -2216,7 +1782,6 @@ public class DodoStyle {
   public static func resetDefaultStyles() {
     DodoBarDefaultStyles.resetToDefaults()
     DodoLabelDefaultStyles.resetToDefaults()
-    DodoButtonDefaultStyles.resetToDefaults()
   }
   
   
@@ -2224,8 +1789,6 @@ public class DodoStyle {
   public func clear() {
     bar.clear()
     label.clear()
-    leftButton.clear()
-    rightButton.clear()
   }
   
   /**
@@ -2251,27 +1814,6 @@ public class DodoStyle {
     return DodoLabelStyle(parentStyle: parent?.label)
   }
   
-  /**
-
-  Styles for the left button.
-
-  */
-  public lazy var leftButton: DodoButtonStyle = self.initLeftButtonStyle()
-  
-  private func initLeftButtonStyle() -> DodoButtonStyle {
-    return DodoButtonStyle(parentStyle: parent?.leftButton)
-  }
-  
-  /**
-
-  Styles for the right button.
-
-  */
-  public lazy var rightButton: DodoButtonStyle = self.initRightButtonStyle()
-  
-  private func initRightButtonStyle() -> DodoButtonStyle {
-    return DodoButtonStyle(parentStyle: parent?.rightButton)
-  }
 }
 
 
@@ -2801,197 +2343,6 @@ class TegAutolayoutConstraints {
     view.addConstraint(constraint)
     
     return [constraint]
-  }
-}
-
-
-// ----------------------------
-//
-// UnderKeyboardDistrib.swift
-//
-// ----------------------------
-
-//
-// An iOS libary for moving content from under the keyboard.
-//
-// https://github.com/marketplacer/UnderKeyboard
-//
-// This file was automatically generated by combining multiple Swift source files.
-//
-
-
-// ----------------------------
-//
-// UnderKeyboardLayoutConstraint.swift
-//
-// ----------------------------
-
-import UIKit
-
-
-/**
- Adjusts the length (constant value) of the bottom layout constraint when keyboard shows and hides.
- */
-@objc public class UnderKeyboardLayoutConstraint: NSObject {
-  private weak var bottomLayoutConstraint: NSLayoutConstraint?
-  private weak var bottomLayoutGuide: UILayoutSupport?
-  private var keyboardObserver = UnderKeyboardObserver()
-  private var initialConstraintConstant: CGFloat = 0
-  private var minMargin: CGFloat = 10
-  
-  private var viewToAnimate: UIView?
-  
-  /// Creates an instance of the class
-  public override init() {
-    super.init()
-    
-    keyboardObserver.willAnimateKeyboard = keyboardWillAnimate
-    keyboardObserver.animateKeyboard = animateKeyboard
-    keyboardObserver.start()
-  }
-  
-  deinit {
-    stop()
-  }
-  
-  /// Stop listening for keyboard notifications.
-  public func stop() {
-    keyboardObserver.stop()
-  }
-  
-  /**
-   
-   Supply a bottom Auto Layout constraint. Its constant value will be adjusted by the height of the keyboard when it appears and hides.
-   
-   - parameter bottomLayoutConstraint: Supply a bottom layout constraint. Its constant value will be adjusted when keyboard is shown and hidden.
-   
-   - parameter view: Supply a view that will be used to animate the constraint. It is usually the superview containing the view with the constraint.
-   
-   - parameter minMargin: Specify the minimum margin between the keyboard and the bottom of the view the constraint is attached to. Default: 10.
-   
-   - parameter bottomLayoutGuide: Supply an optional bottom layout guide (like a tab bar) that will be taken into account during height calculations.
-   
-   */
-  public func setup(_ bottomLayoutConstraint: NSLayoutConstraint,
-                    view: UIView, minMargin: CGFloat = 10,
-                    bottomLayoutGuide: UILayoutSupport? = nil) {
-    
-    initialConstraintConstant = bottomLayoutConstraint.constant
-    self.bottomLayoutConstraint = bottomLayoutConstraint
-    self.minMargin = minMargin
-    self.bottomLayoutGuide = bottomLayoutGuide
-    self.viewToAnimate = view
-    
-    // Keyboard is already open when setup is called
-    if let currentKeyboardHeight = keyboardObserver.currentKeyboardHeight
-      , currentKeyboardHeight > 0 {
-      
-      keyboardWillAnimate(currentKeyboardHeight)
-    }
-  }
-  
-  func keyboardWillAnimate(_ height: CGFloat) {
-    guard let bottomLayoutConstraint = bottomLayoutConstraint else { return }
-    
-    let layoutGuideHeight = bottomLayoutGuide?.length ?? 0
-    let correctedHeight = height - layoutGuideHeight
-    
-    if height > 0 {
-      let newConstantValue = correctedHeight + minMargin
-      
-      if newConstantValue > initialConstraintConstant {
-        // Keyboard height is bigger than the initial constraint length.
-        // Increase constraint length.
-        bottomLayoutConstraint.constant = newConstantValue
-      } else {
-        // Keyboard height is NOT bigger than the initial constraint length.
-        // Show the initial constraint length.
-        bottomLayoutConstraint.constant = initialConstraintConstant
-      }
-      
-    } else {
-      bottomLayoutConstraint.constant = initialConstraintConstant
-    }
-  }
-  
-  func animateKeyboard(_ height: CGFloat) {
-    viewToAnimate?.layoutIfNeeded()
-  }
-}
-
-
-// ----------------------------
-//
-// UnderKeyboardObserver.swift
-//
-// ----------------------------
-
-import UIKit
-
-/**
- Detects appearance of software keyboard and calls the supplied closures that can be used for changing the layout and moving view from under the keyboard.
- */
-public final class UnderKeyboardObserver: NSObject {
-  public typealias AnimationCallback = (_ height: CGFloat) -> ()
-  
-  let notificationCenter: NotificationCenter
-  
-  /// Function that will be called before the keyboard is shown and before animation is started.
-  public var willAnimateKeyboard: AnimationCallback?
-  
-  /// Function that will be called inside the animation block. This can be used to call `layoutIfNeeded` on the view.
-  public var animateKeyboard: AnimationCallback?
-  
-  /// Current height of the keyboard. Has value `nil` if unknown.
-  public var currentKeyboardHeight: CGFloat?
-  
-  /// Creates an instance of the class
-  public override init() {
-    notificationCenter = NotificationCenter.default
-    super.init()
-  }
-  
-  deinit {
-    stop()
-  }
-  
-  /// Start listening for keyboard notifications.
-  public func start() {
-    stop()
-    
-    notificationCenter.addObserver(self, selector: #selector(UnderKeyboardObserver.keyboardNotification(_:)), name:NSNotification.Name.UIKeyboardWillShow, object: nil);
-    notificationCenter.addObserver(self, selector: #selector(UnderKeyboardObserver.keyboardNotification(_:)), name:NSNotification.Name.UIKeyboardWillHide, object: nil);
-  }
-  
-  /// Stop listening for keyboard notifications.
-  public func stop() {
-    notificationCenter.removeObserver(self)
-  }
-  
-  // MARK: - Notification
-  
-  func keyboardNotification(_ notification: Notification) {
-    let isShowing = notification.name == NSNotification.Name.UIKeyboardWillShow
-    
-    if let userInfo = (notification as NSNotification).userInfo,
-      let height = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height,
-      let duration: TimeInterval = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue,
-      let animationCurveRawNSN = userInfo[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber {
-      
-      let correctedHeight = isShowing ? height : 0
-      willAnimateKeyboard?(correctedHeight)
-      
-      UIView.animate(withDuration: duration,
-                     delay: TimeInterval(0),
-                     options: UIViewAnimationOptions(rawValue: animationCurveRawNSN.uintValue),
-                     animations: { [weak self] in
-                      self?.animateKeyboard?(correctedHeight)
-        },
-                     completion: nil
-      )
-      
-      currentKeyboardHeight = correctedHeight
-    }
   }
 }
 

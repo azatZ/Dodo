@@ -17,8 +17,6 @@ public class DodoStyle {
   private func changeParent() {
     bar.parent = parent?.bar
     label.parent = parent?.label
-    leftButton.parent = parent?.leftButton
-    rightButton.parent = parent?.rightButton
   }
   
   /**
@@ -29,7 +27,6 @@ public class DodoStyle {
   public static func resetDefaultStyles() {
     DodoBarDefaultStyles.resetToDefaults()
     DodoLabelDefaultStyles.resetToDefaults()
-    DodoButtonDefaultStyles.resetToDefaults()
   }
   
   
@@ -37,8 +34,6 @@ public class DodoStyle {
   public func clear() {
     bar.clear()
     label.clear()
-    leftButton.clear()
-    rightButton.clear()
   }
   
   /**
@@ -64,25 +59,4 @@ public class DodoStyle {
     return DodoLabelStyle(parentStyle: parent?.label)
   }
   
-  /**
-
-  Styles for the left button.
-
-  */
-  public lazy var leftButton: DodoButtonStyle = self.initLeftButtonStyle()
-  
-  private func initLeftButtonStyle() -> DodoButtonStyle {
-    return DodoButtonStyle(parentStyle: parent?.leftButton)
-  }
-  
-  /**
-
-  Styles for the right button.
-
-  */
-  public lazy var rightButton: DodoButtonStyle = self.initRightButtonStyle()
-  
-  private func initRightButtonStyle() -> DodoButtonStyle {
-    return DodoButtonStyle(parentStyle: parent?.rightButton)
-  }
 }

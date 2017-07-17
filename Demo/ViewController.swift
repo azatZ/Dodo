@@ -63,7 +63,6 @@ class ViewController: UIViewController {
     view.dodo.style.bar.animationShow = currentShowAnimation.show
     view.dodo.style.bar.animationHide = currentHideAnimation.hide
     
-    addButtons()
     
     view.dodo.show(message)
   }
@@ -148,30 +147,6 @@ class ViewController: UIViewController {
      toggleKeyboardButton.setTitle(title, for: UIControlState())
   }
   
-  // MARK: - Buttons
-  
-  private func addButtons() {
-    view.dodo.style.rightButton.image = nil
-    view.dodo.style.leftButton.tintColor = DodoColor.fromHexString("#FFFFFFAA")
-    
-    if leftButtonSwitch.isOn {
-      view.dodo.style.leftButton.accessibilityLabel = "Close the message"
-      view.dodo.style.leftButton.hideOnTap = true
-    }
-    
-    if rightButtonSwitch.isOn {
-      // Use custom image
-      let customImage = UIImage(named: "Dodo.png")
-      view.dodo.style.rightButton.image = customImage
-      view.dodo.style.rightButton.size = CGSize(width: 30, height: 30)
-      view.dodo.style.rightButton.image = customImage
-      view.dodo.style.rightButton.accessibilityLabel = "Picture of Dodo"
-      
-      view.dodo.style.rightButton.onTap = { [weak self] bar in
-        self?.rotateTheView()
-      }
-    }
-  }
   
   // MARK: - Animation
   
