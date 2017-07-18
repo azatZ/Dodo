@@ -21,7 +21,7 @@ class DodoToolbar: UIView {
     fatalError("init(coder:) has not been implemented")
   }
   
-  func show(inSuperview parentView: UIView, withMessage message: String) {
+    func show(inSuperview parentView: UIView, withMessage message: String, completion: DodoAnimationCompleted? = nil) {
       
     if superview != nil { return } // already being shown
   
@@ -31,7 +31,7 @@ class DodoToolbar: UIView {
     
     createLabel(message)
     
-    style.bar.animationShow(self, style.bar.animationShowDuration, style.bar.locationTop, {})
+    style.bar.animationShow(self, style.bar.animationShowDuration, style.bar.locationTop,  {})
   }
   
   func hide(_ onAnimationCompleted: @escaping ()->()) {

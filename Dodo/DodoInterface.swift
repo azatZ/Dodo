@@ -33,7 +33,7 @@ public protocol DodoInterface: class {
   - parameter message: The text message to be shown.
   
   */
-  func success(_ message: String)
+  func success(_ message: String, onHide: DodoAnimationCompleted?)
   
   /**
   
@@ -42,7 +42,7 @@ public protocol DodoInterface: class {
   - parameter message: The text message to be shown.
   
   */
-  func info(_ message: String)
+  func info(_ message: String, onHide: DodoAnimationCompleted?)
   
   /**
   
@@ -51,7 +51,7 @@ public protocol DodoInterface: class {
   - parameter message: The text message to be shown.
   
   */
-  func warning(_ message: String)
+  func warning(_ message: String, onHide: DodoAnimationCompleted?)
   
   /**
   
@@ -60,7 +60,7 @@ public protocol DodoInterface: class {
   - parameter message: The text message to be shown.
   
   */
-  func error(_ message: String)
+  func error(_ message: String, onHide: DodoAnimationCompleted?)
   
   /**
   
@@ -69,8 +69,8 @@ public protocol DodoInterface: class {
   - parameter message: The text message to be shown.
   
   */
-  func show(_ message: String)
+  func show(_ message: String, onHide: DodoAnimationCompleted?)
   
   /// Hide the message bar if it's currently shown.
-  func hide()
+  func hide(completion: DodoAnimationCompleted?)
 }

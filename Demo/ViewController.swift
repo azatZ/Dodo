@@ -64,7 +64,7 @@ class ViewController: UIViewController {
     view.dodo.style.bar.animationHide = currentHideAnimation.hide
     
     
-    view.dodo.show(message)
+    view.dodo.show(message, onHide: {print("Hide!")})
   }
   
   // MARK: - UI handlers
@@ -94,7 +94,7 @@ class ViewController: UIViewController {
   }
   
   @IBAction func onHideButtonTapped(_ sender: AnyObject) {
-    view.dodo.hide()
+    view.dodo.hide(completion: nil)
   }
   
   @IBAction func onTopSwitchChanged(_ sender: AnyObject) {

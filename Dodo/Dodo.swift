@@ -20,6 +20,7 @@ For example:
 
 */
 final class Dodo: DodoInterface {
+
   private weak var superview: UIView!
   private var hideTimer: MoaTimer?
   
@@ -51,14 +52,14 @@ final class Dodo: DodoInterface {
   
   /**
   
-  Shows the message bar with *.success* preset. It can be used to indicate successful completion of an operation.
+  Shows the message bar with *.success* preset. It can be used to indicate successful onHide of an operation.
   
   - parameter message: The text message to be shown.
   
   */
-  func success(_ message: String) {
+  func success(_ message: String, onHide: DodoAnimationCompleted?) {
     preset = .success
-    show(message)
+    show(message, onHide: onHide)
   }
   
   /**
@@ -68,9 +69,9 @@ final class Dodo: DodoInterface {
   - parameter message: The text message to be shown.
   
   */
-  func info(_ message: String) {
+  func info(_ message: String, onHide: DodoAnimationCompleted?) {
     preset = .info
-    show(message)
+    show(message, onHide: onHide)
   }
   
   /**
@@ -80,9 +81,9 @@ final class Dodo: DodoInterface {
   - parameter message: The text message to be shown.
   
   */
-  func warning(_ message: String) {
+  func warning(_ message: String, onHide: DodoAnimationCompleted?) {
     preset = .warning
-    show(message)
+    show(message, onHide: onHide)
   }
   
   /**
@@ -92,9 +93,9 @@ final class Dodo: DodoInterface {
   - parameter message: The text message to be shown.
   
   */
-  func error(_ message: String) {
+    func error(_ message: String, onHide: DodoAnimationCompleted?) {
     preset = .error
-    show(message)
+    show(message, onHide: onHide)
   }
   
   /**
@@ -104,22 +105,21 @@ final class Dodo: DodoInterface {
   - parameter message: The text message to be shown.
     
   */
-  func show(_ message: String) {
-    removeExistingBars()
-    setupHideTimer()
+    func show(_ message: String, onHide: DodoAnimationCompleted? = nil) {
+        removeExistingBars()
+        setupHideTimer(completion: onHide)
 
     let bar = DodoToolbar(witStyle: style)
-    setupHideOnTap(bar)
-    bar.layoutGuide = style.bar.locationTop ? topLayoutGuide : bottomLayoutGuide
-    bar.show(inSuperview: superview, withMessage: message)
-  }
-  
-  /// Hide the message bar if it's currently shown.
-  func hide() {
-    hideTimer?.cancel()
+        setupHideOnTap(bar, completion: onHide)
+        bar.layoutGuide = style.bar.locationTop ? topLayoutGuide : bottomLayoutGuide
+        bar.show(inSuperview: superview, withMessage: message, completion: onHide)
+    }
     
-    toolbar?.hide({})
-  }
+    /// Hide the message bar if it's currently shown.
+    func hide(completion: DodoAnimationCompleted? = nil) {
+        hideTimer?.cancel()
+        toolbar?.hide(completion ?? {})
+    }
   
   func listenForKeyboard() {
     
@@ -141,14 +141,14 @@ final class Dodo: DodoInterface {
   
   // MARK: - Hiding after delay
   
-  private func setupHideTimer() {
+  private func setupHideTimer(completion: DodoAnimationCompleted?) {
     hideTimer?.cancel()
     
     if style.bar.hideAfterDelaySeconds > 0 {
       hideTimer = MoaTimer.runAfter(style.bar.hideAfterDelaySeconds) { [weak self] timer in
         
         DispatchQueue.main.async {
-          self?.hide()
+          self?.hide(completion: completion)
         }
       }
     }
@@ -156,18 +156,18 @@ final class Dodo: DodoInterface {
   
   // MARK: - Reacting to tap
   
-  private func setupHideOnTap(_ toolbar: UIView) {
+    private func setupHideOnTap(_ toolbar: UIView, completion: DodoAnimationCompleted?) {
     onTap = OnTap(view: toolbar, gesture: UITapGestureRecognizer()) { [weak self] in
-      self?.didTapTheBar()
+      self?.didTapTheBar(completion: completion)
     }
   }
   
   /// The bar has been tapped
-  private func didTapTheBar() {
+  private func didTapTheBar(completion: DodoAnimationCompleted?) {
     style.bar.onTap?()
     
     if style.bar.hideOnTap {
-      hide()
+        hide(completion: completion)
     }
   }
 }
